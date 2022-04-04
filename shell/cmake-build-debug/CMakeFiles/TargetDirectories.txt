@@ -1,0 +1,3 @@
+/home/kahlon/Desktop/opartion system /Operation-system/shell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/kahlon/Desktop/opartion system /Operation-system/shell/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/kahlon/Desktop/opartion system /Operation-system/shell/cmake-build-debug/CMakeFiles/shell.dir

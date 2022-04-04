@@ -1,0 +1,9 @@
+/snap/clion/184/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/184/bin/ninja/linux/ninja -G Ninja "/home/kahlon/Desktop/opartion system /Operation-system/shell"
+CMake Error at CMakeLists.txt:6 (add_executable):
+  The target name "ex/myShell.c" is reserved or not valid for certain CMake
+  features, such as generator expressions, and may result in undefined
+  behavior.
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/kahlon/Desktop/opartion system /Operation-system/shell/cmake-build-debug/CMakeFiles/CMakeOutput.log".
