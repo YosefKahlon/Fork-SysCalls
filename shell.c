@@ -4,44 +4,64 @@
 #include <unistd.h>
 #include "stdio.h"
 #include "stdlib.h"
-#include "string.h"
+#include <string.h>
 #include "netinet/in.h"
-#include "sys/socket.h"
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <arpa/inet.h>
 
 #define EQUAL 0
 #define PORT 55001
 #define IP "127.0.0.1"
+//
+//
+//
 
+struct sockaddr_in sockaddrIn;
 
+int open_socket() {
 
-int open_socket(){
-
-    int socketF = socket(AF_INET, SOCK_STREAM,0);
-    if (socketF == -1){
+    int socketF = socket(AF_INET, SOCK_STREAM, 0);
+    if (socketF == -1) {
         perror("dsd");
     }
-    int con =connect(socketF,struct sockaddr *serv_addr ,)
+    sockaddrIn.sin_family = AF_INET; // IPv4
+    sockaddrIn.sin_addr.s_addr = inet_addr(IP);
+    sockaddrIn.sin_port = htons(PORT); // host to network
+    int con = connect(socketF, (struct sockaddr *) &sockaddrIn, sizeof(sockaddrIn));
+    if (con != 0) {
+        perror("Connection failed\n");
+        close(socketF);
+        exit(1);
+    }
+    printf("Successfully connected with the server\n");
 
+
+    struct sockaddr_in serverAddress;
+    memset(&serverAddress, 0, sizeof(serverAddress));
+
+    dup2(socketF, 1);
+    return socketF;
 
 
 }
 
 int main() {
+    char path[256];
+    if (getcwd(path, sizeof path) != NULL) {
+        printf("Current working directory is: %s \n", getcwd(path, sizeof path));
+    } else {
+        perror("getcwd()  error\n");
+    }
+    printf("~~Welcome master \n");
+    printf("~~I'm ready to serve you .  \n");
 
-    int sok =-1;
+    int sok = -1;
     int desc = dup(1); // close stout
     while (1) {
-        printf("Welcome master \n");
-        char path[256];
+        int valid_cmd = 0;
 
-        if (getcwd(path, sizeof path) != NULL) {
-            printf("Current working directory is: %s \n", getcwd(path, sizeof path));
-        } else {
-            perror("getcwd()  error\n");
-        }
-
-
-        printf("I'm ready to serve you .  \n");
         char *command = NULL;
 
 
@@ -56,22 +76,69 @@ int main() {
             exit(1);
         } else if (strncmp("ECHO", command, 4) == EQUAL) {
             char *echo;
-            echo = (char *) malloc((line_size - 5) * (sizeof(char)));
+            echo = (char *) malloc((line_size - 4) * (sizeof(char)));
             for (int i = 5; i < line_size; i++) {
                 echo[i - 5] = command[i];
             }
+            echo[line_size - 1] = '\0';
+
             printf("%s\n", echo);
             free(echo);
-        }
-        else if (strcmp("TCP PORT", command) == EQUAL) {
-            sok = open_socket();
-
-            if(sok == -1 ){
-
-                perror("connection failed  !");
+            valid_cmd = 1;
+        } else if (strcmp("DIR", command) == EQUAL) {
+            DIR *directory = opendir(path);
+            if (directory != NULL) {
+                struct dirent *files;
+                while ((files = readdir(directory)) != NULL) {
+                    printf("%s\n", files->d_name);
+                }
+                closedir(directory);
+            } else {
+                perror("Failed at open the directory");
             }
-        }
+            valid_cmd = 1;
+        } else if (strncmp("CD", command, 2) == EQUAL) {
+            int chd;
+//            char * dir = "/";
+//            strncat(dir, command + 2, sizeof (command) - 2);
+//            char *fdir = NULL;
+//            strcat(fdir, path);
+//            strcat(fdir,dir);
+            char *new_path;
+            new_path = (char *) malloc(sizeof(path) + sizeof(char) * (strlen(command) - 2));
+            for (int i = 0; i < strlen(path); ++i) {
+                new_path[i] = path[i];
+            }
+            new_path[strlen(path)] = '/';
+            for (size_t i = strlen(path)+1, j = 3; j < strlen(command); ++i, ++j) {
+                new_path[i] = command[j];
+            }
+            new_path[strlen(new_path)] = '\0';
+//            printf("%s", new_path);
 
+            if ((chd = chdir(new_path)) == -1) {
+                perror("Error on change directory");
+            } else {
+                printf("the new path is: %s", getcwd(path, sizeof path));
+            }
+
+            free(new_path);
+            valid_cmd = 1;
+        }
+//        else if (strcmp("TCP PORT", command) == EQUAL) {
+//            sok = open_socket();
+//
+//            if(sok == -1 ){
+//
+//                perror("connection failed  !");
+//            }
+//        valid_cmd = 1;
+//        }
+        if (valid_cmd) {
+            printf("\n~~Great choice master, anything else?\n");
+        } else {
+            printf("\n~~I do not understand that command\n");
+        }
     }
 
     return 0;

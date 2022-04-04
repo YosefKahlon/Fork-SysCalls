@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.21)
-project(shell C)
+cmake_minimum_required(VERSION 3.16)
+project(Fork_SysCalls)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(
-        "ex/myShell.c"
-        ex/shell.c)
+add_executable(Fork_SysCalls shell.c)

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/shell.c
+unistd.h
+-
+stdio.h
+/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/stdio.h
+stdlib.h
+/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/stdlib.h
+string.h
+-
+netinet/in.h
+/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/netinet/in.h
+sys/socket.h
+/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/sys/socket.h
+
