@@ -14,17 +14,19 @@
 #define EQUAL 0
 #define PORT 54321
 #define IP "127.0.0.1"
-//
-//
-//
+
 
 struct sockaddr_in sockaddrIn;
 
+/**
+ * Open TCP socket to conttion with the server
+ * @return TCP socket
+ */
 int open_socket() {
 
     int socketF = socket(AF_INET, SOCK_STREAM, 0);
     if (socketF == -1) {
-        perror("dsd");
+        perror("Failed with open socket \n");
     }
     sockaddrIn.sin_family = AF_INET; // IPv4
     sockaddrIn.sin_addr.s_addr = inet_addr(IP);
@@ -49,6 +51,8 @@ int open_socket() {
 
 int main() {
     char path[256];
+
+    //get the current directory path of this project
     if (getcwd(path, sizeof path) != NULL) {
         printf("Current working directory is: %s \n", getcwd(path, sizeof path));
     } else {
@@ -60,6 +64,9 @@ int main() {
     int sok = -1;
     int status = 1;
     int desc = dup(1); // close stout
+
+
+
     while (1) {
         int valid_cmd = 0;
 
@@ -72,20 +79,24 @@ int main() {
         ssize_t line_size = getline(&command, &size, stdin);
         command[line_size - 1] = '\0';
 
-
+        //kill this processes
         if (strcmp("EXIT", command) == EQUAL) {
             exit(1);
+
+         // print to output the text after ECHO
         } else if (strncmp("ECHO", command, 4) == EQUAL) {
             char *echo;
             echo = (char *) malloc((line_size - 4) * (sizeof(char)));
+            //copy the text from the right position
             for (int i = 5; i < line_size; i++) {
                 echo[i - 5] = command[i];
             }
             echo[line_size - 1] = '\0';
-
             printf("%s\n", echo);
             free(echo);
             valid_cmd = 1;
+
+          // print to output all the file in the current directory
         } else if (strcmp("DIR", command) == EQUAL) {
             DIR *directory = opendir(path);
             if (directory != NULL) {
@@ -98,6 +109,8 @@ int main() {
                 perror("Failed at open the directory");
             }
             valid_cmd = 1;
+
+            //changing  the position to command
         } else if (strncmp("CD", command, 2) == EQUAL) {
             int chd;
             char *new_path;
@@ -119,22 +132,25 @@ int main() {
 
                 printf("the new path is: %s", getcwd(path, sizeof path));
             }
-
             free(new_path);
             valid_cmd = 1;
+
+
+            //change output to server
         } else if (strcmp("TCP PORT", command) == EQUAL) {
             sok = open_socket();
-
             if (sok == -1) {
-
                 perror("connection failed  !");
             }
             valid_cmd = 1;
+
+            // close the socket with server
+            // return output to this shell
         } else if (strcmp("LOCAL", command) == EQUAL) {
             status = 1;
             printf("Close Connection");
-            close(sok);
             dup2(desc, 1);
+            close(sok);
             valid_cmd = 1;
         }
         if (valid_cmd) {
