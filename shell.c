@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 
 #define EQUAL 0
-#define PORT 55006
+#define PORT 3490
 #define IP "127.0.0.1"
 //
 //
@@ -137,15 +137,12 @@ int main() {
             if(sok == -1 ){
 
                 perror("connection failed  !");
-            } else {
-                status = 0;
             }
         valid_cmd = 1;
         }
         else if (strcmp("LOCAL", command) == EQUAL) {
-            char *ermsg = "close";
-            size_t erm = (sok, ermsg, strlen(ermsg));
             status = 1;
+            printf("Close Connection");
             close(sok);
             dup2(desc, 1);
         }

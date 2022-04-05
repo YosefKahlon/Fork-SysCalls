@@ -9,19 +9,21 @@
 #include <arpa/inet.h>
 
 #define EQUAL 0
-#define PORT 55006
+#define PORT 3490
 #define IP "127.0.0.1"
 
 struct sockaddr_in sockaddrIn, client;
 
-int main() {
+int main(int argc, char *argv[]) {
     printf("Hello world\n");
+    int sockaddlen = sizeof(sockaddrIn);
+    char client_msg[1024] = {0}; // '\0'
     int socketS = socket(AF_INET, SOCK_STREAM, 0);
     if (socketS == -1) {
         perror("dsd\n");
     }
     sockaddrIn.sin_family = AF_INET; // IPv4
-    sockaddrIn.sin_addr.s_addr = htonl(INADDR_ANY);
+    sockaddrIn.sin_addr.s_addr = INADDR_ANY;
     sockaddrIn.sin_port = htons(PORT); // host to network
 
     int bin = bind(socketS, (struct sockaddr *) &sockaddrIn, sizeof(sockaddrIn));
@@ -36,16 +38,17 @@ int main() {
         exit(1);
     }
 
-    int lis = listen(socketS, 1);
-    if (lis == -1) {
-        perror("Listen failed\n");
-        exit(1);
-    }
+    while (1) {
 
-    for (;;) {
+        int lis = listen(socketS, 3);
+        if (lis == -1) {
+            perror("Listen failed\n");
+            exit(1);
+        }
+
         int c_len = sizeof(client);
-        int ac = accept(socketS, (struct sockaddr *) &client, (socklen_t *) &c_len);
-        if (ac != -1) {
+        int c_sock = accept(socketS, (struct sockaddr *) &sockaddrIn, (socklen_t *) &sockaddlen);
+        if (c_sock != -1) {
             printf("Successfully connected to the server\n");
 //            ssize_t message = send(socketS, msg, strlen(msg), 0);
         } else {
@@ -53,23 +56,19 @@ int main() {
 //            ssize_t message = send(socketS, msg, strlen(msg), 0);
             exit(1);
         }
-        char client_msg[1024];
-        while (read(socketS, client_msg, sizeof(client_msg))) {
+
+        while (1) {
 //            printf("DAMN\n");
-            client_msg[strlen(client_msg) - 1] = '\0';
-            if (strcmp(client_msg, "close") == EQUAL) {
-                close(socketS);
-                exit(0);
-            }
-            if (strlen(client_msg) > 1) {
+            memset(client_msg, 0, 1024);
+            size_t r = read(c_sock, client_msg, sizeof(client_msg));
+            if (r != 0) {
                 printf("%s\n", client_msg);
+            } else {
+                break;
             }
-            bzero(client_msg, 1024);
-
         }
-        close(socketS);
     }
-
+//    close(socketS);
 
 }
 
