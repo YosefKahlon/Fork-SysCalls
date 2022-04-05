@@ -106,45 +106,36 @@ int main() {
                 new_path[i] = path[i];
             }
             new_path[strlen(path)] = '/';
-            for (size_t i = strlen(path)+1, j = 3; j < strlen(command); ++i, ++j) {
+            for (size_t i = strlen(path) + 1, j = 3; j < strlen(command); ++i, ++j) {
                 new_path[i] = command[j];
             }
             new_path[strlen(new_path)] = '\0';
 
             if ((chd = chdir(new_path)) == -1) {
-                if (status) {
-                    perror("Error on change directory\n");
-                } else {
-                    char *ermsg = "Error on change directory\n";
-                    size_t erm = (sok, ermsg, strlen(ermsg));
-                }
+
+                perror("Error on change directory\n");
+
             } else {
-                if (status) {
-                    printf("the new path is: %s", getcwd(path, sizeof path));
-                } else {
-                    char *ermsg = "the new path is: %s";
-                    strcat(ermsg,getcwd(path, sizeof path));
-                    size_t erm = (sok, ermsg, strlen(ermsg));
-                }
+
+                printf("the new path is: %s", getcwd(path, sizeof path));
             }
 
             free(new_path);
             valid_cmd = 1;
-        }
-        else if (strcmp("TCP PORT", command) == EQUAL) {
+        } else if (strcmp("TCP PORT", command) == EQUAL) {
             sok = open_socket();
 
-            if(sok == -1 ){
+            if (sok == -1) {
 
                 perror("connection failed  !");
             }
-        valid_cmd = 1;
-        }
-        else if (strcmp("LOCAL", command) == EQUAL) {
+            valid_cmd = 1;
+        } else if (strcmp("LOCAL", command) == EQUAL) {
             status = 1;
             printf("Close Connection");
             close(sok);
             dup2(desc, 1);
+            valid_cmd = 1;
         }
         if (valid_cmd) {
             printf("\n~~Great choice master, anything else?\n");
