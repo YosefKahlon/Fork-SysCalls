@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 
 #define EQUAL 0
-#define PORT 3490
+#define PORT 54321
 #define IP "127.0.0.1"
 
 struct sockaddr_in sockaddrIn, client;
