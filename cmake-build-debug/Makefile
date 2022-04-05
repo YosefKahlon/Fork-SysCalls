@@ -123,6 +123,33 @@ Fork_SysCalls/fast:
 	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/build
 .PHONY : Fork_SysCalls/fast
 
+server.o: server.c.o
+
+.PHONY : server.o
+
+# target to build an object file
+server.c.o:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/server.c.o
+.PHONY : server.c.o
+
+server.i: server.c.i
+
+.PHONY : server.i
+
+# target to preprocess a source file
+server.c.i:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/server.c.i
+.PHONY : server.c.i
+
+server.s: server.c.s
+
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.c.s:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/server.c.s
+.PHONY : server.c.s
+
 shell.o: shell.c.o
 
 .PHONY : shell.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Fork_SysCalls"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
 	@echo "... shell.o"
 	@echo "... shell.i"
 	@echo "... shell.s"

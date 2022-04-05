@@ -84,6 +84,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/server.c">
+			<Option target="Fork_SysCalls"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/shell.c">
 			<Option target="Fork_SysCalls"/>
 		</Unit>

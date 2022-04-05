@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 
 #define EQUAL 0
-#define PORT 55001
+#define PORT 55006
 #define IP "127.0.0.1"
 //
 //
@@ -35,13 +35,13 @@ int open_socket() {
         close(socketF);
         exit(1);
     }
-    printf("Successfully connected with the server\n");
+    printf("Client has Successfully connected with the server\n");
 
 
+    dup2(socketF, 1);
     struct sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
 
-    dup2(socketF, 1);
     return socketF;
 
 
@@ -58,6 +58,7 @@ int main() {
     printf("~~I'm ready to serve you .  \n");
 
     int sok = -1;
+    int status = 1;
     int desc = dup(1); // close stout
     while (1) {
         int valid_cmd = 0;
@@ -99,11 +100,6 @@ int main() {
             valid_cmd = 1;
         } else if (strncmp("CD", command, 2) == EQUAL) {
             int chd;
-//            char * dir = "/";
-//            strncat(dir, command + 2, sizeof (command) - 2);
-//            char *fdir = NULL;
-//            strcat(fdir, path);
-//            strcat(fdir,dir);
             char *new_path;
             new_path = (char *) malloc(sizeof(path) + sizeof(char) * (strlen(command) - 2));
             for (int i = 0; i < strlen(path); ++i) {
@@ -114,26 +110,45 @@ int main() {
                 new_path[i] = command[j];
             }
             new_path[strlen(new_path)] = '\0';
-//            printf("%s", new_path);
 
             if ((chd = chdir(new_path)) == -1) {
-                perror("Error on change directory");
+                if (status) {
+                    perror("Error on change directory\n");
+                } else {
+                    char *ermsg = "Error on change directory\n";
+                    size_t erm = (sok, ermsg, strlen(ermsg));
+                }
             } else {
-                printf("the new path is: %s", getcwd(path, sizeof path));
+                if (status) {
+                    printf("the new path is: %s", getcwd(path, sizeof path));
+                } else {
+                    char *ermsg = "the new path is: %s";
+                    strcat(ermsg,getcwd(path, sizeof path));
+                    size_t erm = (sok, ermsg, strlen(ermsg));
+                }
             }
 
             free(new_path);
             valid_cmd = 1;
         }
-//        else if (strcmp("TCP PORT", command) == EQUAL) {
-//            sok = open_socket();
-//
-//            if(sok == -1 ){
-//
-//                perror("connection failed  !");
-//            }
-//        valid_cmd = 1;
-//        }
+        else if (strcmp("TCP PORT", command) == EQUAL) {
+            sok = open_socket();
+
+            if(sok == -1 ){
+
+                perror("connection failed  !");
+            } else {
+                status = 0;
+            }
+        valid_cmd = 1;
+        }
+        else if (strcmp("LOCAL", command) == EQUAL) {
+            char *ermsg = "close";
+            size_t erm = (sok, ermsg, strlen(ermsg));
+            status = 1;
+            close(sok);
+            dup2(desc, 1);
+        }
         if (valid_cmd) {
             printf("\n~~Great choice master, anything else?\n");
         } else {
