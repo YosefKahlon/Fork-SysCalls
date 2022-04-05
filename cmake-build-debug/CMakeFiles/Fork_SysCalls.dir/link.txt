@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/Fork_SysCalls.dir/shell.c.o  -o Fork_SysCalls 
+/usr/bin/cc -g   CMakeFiles/Fork_SysCalls.dir/shell.c.o CMakeFiles/Fork_SysCalls.dir/server.c.o  -o Fork_SysCalls 
