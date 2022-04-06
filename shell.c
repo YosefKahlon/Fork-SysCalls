@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 
 #define EQUAL 0
-#define PORT 54321
+#define PORT 54322
 #define IP "127.0.0.1"
 
 
@@ -45,7 +45,6 @@ int open_socket() {
     memset(&serverAddress, 0, sizeof(serverAddress));
 
     return socketF;
-
 
 }
 
@@ -144,7 +143,7 @@ int main() {
             }
             valid_cmd = 1;
 
-            // close the socket with server
+            // close the socket with the server
             // return output to this shell
         } else if (strcmp("LOCAL", command) == EQUAL) {
             status = 1;
@@ -153,6 +152,10 @@ int main() {
             close(sok);
             valid_cmd = 1;
         }
+
+
+
+
         if (valid_cmd) {
             printf("\n~~Great choice master, anything else?\n");
         } else {
