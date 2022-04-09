@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/server.c" "/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles/Fork_SysCalls.dir/server.c.o"
-  "/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/shell.c" "/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles/Fork_SysCalls.dir/shell.c.o"
+  "/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/server.c" "/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/cmake-build-debug/CMakeFiles/Fork_SysCalls.dir/server.c.o"
+  "/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/shell.c" "/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/cmake-build-debug/CMakeFiles/Fork_SysCalls.dir/shell.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -14,7 +14,7 @@
 
 struct sockaddr_in sockaddrIn, client;
 
-int main(int argc, char *argv[]) {
+int main() {
     printf("Hello world\n");
     int sockaddlen = sizeof(sockaddrIn);
     char client_msg[1024] = {0}; // '\0'

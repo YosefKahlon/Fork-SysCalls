@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <arpa/inet.h>
+#include <sys/wait.h>
 
 #define EQUAL 0
 #define PORT 54322
@@ -82,7 +83,7 @@ int main() {
         if (strcmp("EXIT", command) == EQUAL) {
             exit(1);
 
-         // print to output the text after ECHO
+            // print to output the text after ECHO
         } else if (strncmp("ECHO", command, 4) == EQUAL) {
             char *echo;
             echo = (char *) malloc((line_size - 4) * (sizeof(char)));
@@ -95,7 +96,7 @@ int main() {
             free(echo);
             valid_cmd = 1;
 
-          // print to output all the file in the current directory
+            // print to output all the file in the current directory
         } else if (strcmp("DIR", command) == EQUAL) {
             DIR *directory = opendir(path);
             if (directory != NULL) {
@@ -151,8 +152,104 @@ int main() {
             dup2(desc, 1);
             close(sok);
             valid_cmd = 1;
+        } else if (strncmp("COPY", command, 4) == EQUAL) {
+            char *src;
+            char *dest;
+            int counter = 0;
+
+            //skip space
+            int j = 5;
+
+            //count space for size of src dir
+            while (j < line_size && command[j] != ' ') {
+                counter++;
+                j++;
+            }
+
+            src = (char *) malloc(counter * sizeof(char));
+            counter = 0;
+            //copy name of src
+            for (int i = 5; i < j; i++, counter++) {
+                src[counter] = command[i];
+            }
+            src[counter] = '\0';
+            counter = 0;
+            //skip space
+            j++;
+            int temp = j;
+            //count space for size of dest dir
+            while (j < line_size) {
+                j++;
+                counter++;
+            }
+
+            dest = (char *) malloc(counter * sizeof(char));
+            dest[counter] = '\0';
+            counter = 0;
+            //copy name of dest
+            for (int i = temp; i < line_size; i++, counter++) {
+                dest[counter] = command[i];
+            }
+
+
+
+
+            //open file to read
+            FILE *file_src = fopen(src, "rb");
+            if (file_src == NULL) {
+                printf("Cannot open file %s \n", src);
+                exit(0);
+            }
+
+            //create file to write
+            FILE *file_dest = fopen(dest, "wb");
+            if (file_dest == NULL) {
+                printf("Cannot open file %s \n", dest);
+                exit(0);
+            }
+            char c;
+            // read from fhe src
+            // char by char
+            while (fread(&c, 1, 1, file_src) == 1) {
+
+                //write to dest file
+                fwrite(&c, 1, 1, file_dest);
+            }
+
+
+            fclose(file_src);
+            fclose(file_dest);
+
+
+            free(src);
+            free(dest);
+
         }
 
+
+
+        //TODO
+//        else {
+//
+//            printf("hello from pid =  %d\n", getpid());
+//            int pid = fork();
+//            if (pid == -1) {
+//                printf("filed\n");
+//                exit(1);
+//            } else if (pid == 0) {
+//
+//                printf(" in hello from pid =  %d\n", getpid());
+//                execl(path, "sh", "-c", command, (char *) NULL);
+//                if (execl(path, "sh", "-c", command, (char *) NULL) == -1) {
+//                    printf(" execl filed\n");
+//                    exit(1);
+//                } else {
+//                    wait(NULL);
+//
+//                }
+//
+//            }
+//        }
 
 
 
@@ -161,6 +258,7 @@ int main() {
         } else {
             printf("\n~~I do not understand that command\n");
         }
+
     }
 
     return 0;

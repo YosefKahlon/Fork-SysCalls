@@ -6,7 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/server.c
+/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/shell.c
+unistd.h
+-
 stdio.h
+/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/stdio.h
+stdlib.h
+/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/stdlib.h
+string.h
+-
+netinet/in.h
+/mnt/c/Users/97252/Documents/GitHub/Matrix-Calculator-part-A/Fork-SysCalls/netinet/in.h
+sys/socket.h
+-
+sys/types.h
+-
+dirent.h
+-
+arpa/inet.h
+-
+sys/wait.h
 -
 
