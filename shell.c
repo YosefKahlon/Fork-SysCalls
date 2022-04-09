@@ -85,6 +85,9 @@ int main() {
 
             // print to output the text after ECHO
         } else if (strncmp("ECHO", command, 4) == EQUAL) {
+            printf(" echo pid =  %d\n", getpid());
+
+
             char *echo;
             echo = (char *) malloc((line_size - 4) * (sizeof(char)));
             //copy the text from the right position
@@ -224,7 +227,7 @@ int main() {
             valid_cmd = 1;
         }
 
-        //delete file from directory
+            //delete file from directory
         else if (strncmp("DELETE", command, 6) == EQUAL) {
             char *fileName;
             fileName = (char *) malloc((line_size - 6) * sizeof(char));
@@ -232,8 +235,8 @@ int main() {
                 fileName[i - 7] = command[i];
             }
 
-            if(unlink(fileName)  ==  -1 ){
-                perror("Cannot delete the file !\n" );
+            if (unlink(fileName) == -1) {
+                perror("Cannot delete the file !\n");
             }
 
             free(fileName);
@@ -241,30 +244,29 @@ int main() {
         }
 
 
-
-        //TODO
+            //TODO
         else {
 
-            printf("hello from pid =  %d\n", getpid());
             int pid = fork();
             if (pid == -1) {
-                printf("filed\n");
+                printf(" the child is not born\n");
                 exit(1);
             } else if (pid == 0) {
+                char *binaryPath = "/bin/ls";
+                char *arg1 = "-lh";
+                char *arg2 = "/home";
 
-                printf(" in hello from pid =  %d\n", getpid());
-                execl(path, "sh", "-c", command, (char *) NULL);
-                if (execl(path, "sh", "-c", command, (char *) NULL) == -1) {
-                    printf(" execl filed\n");
-                    exit(1);
-                } else {
-                    wait(NULL);
+                execl(binaryPath, binaryPath, arg1,arg2, NULL);
 
-                }
-
+//
+//                if (execl(, "sh", "-c", command, (char *) NULL) == -1) {
+//                    printf(" ll hello from pid =  %d\n", getpid());
+//                    printf(" execl filed\n");
+//                    exit(1);
+            } else {
+                wait(NULL);
             }
         }
-
 
 
         if (valid_cmd) {
