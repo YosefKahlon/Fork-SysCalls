@@ -192,8 +192,6 @@ int main() {
             }
 
 
-
-
             //open file to read
             FILE *file_src = fopen(src, "rb");
             if (file_src == NULL) {
@@ -223,33 +221,49 @@ int main() {
 
             free(src);
             free(dest);
+            valid_cmd = 1;
+        }
 
+        //delete file from directory
+        else if (strncmp("DELETE", command, 6) == EQUAL) {
+            char *fileName;
+            fileName = (char *) malloc((line_size - 6) * sizeof(char));
+            for (int i = 7; i < line_size; i++) {
+                fileName[i - 7] = command[i];
+            }
+
+            if(unlink(fileName)  ==  -1 ){
+                perror("Cannot delete the file !\n" );
+            }
+
+            free(fileName);
+            valid_cmd = 1;
         }
 
 
 
         //TODO
-//        else {
-//
-//            printf("hello from pid =  %d\n", getpid());
-//            int pid = fork();
-//            if (pid == -1) {
-//                printf("filed\n");
-//                exit(1);
-//            } else if (pid == 0) {
-//
-//                printf(" in hello from pid =  %d\n", getpid());
-//                execl(path, "sh", "-c", command, (char *) NULL);
-//                if (execl(path, "sh", "-c", command, (char *) NULL) == -1) {
-//                    printf(" execl filed\n");
-//                    exit(1);
-//                } else {
-//                    wait(NULL);
-//
-//                }
-//
-//            }
-//        }
+        else {
+
+            printf("hello from pid =  %d\n", getpid());
+            int pid = fork();
+            if (pid == -1) {
+                printf("filed\n");
+                exit(1);
+            } else if (pid == 0) {
+
+                printf(" in hello from pid =  %d\n", getpid());
+                execl(path, "sh", "-c", command, (char *) NULL);
+                if (execl(path, "sh", "-c", command, (char *) NULL) == -1) {
+                    printf(" execl filed\n");
+                    exit(1);
+                } else {
+                    wait(NULL);
+
+                }
+
+            }
+        }
 
 
 
