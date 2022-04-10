@@ -85,8 +85,6 @@ int main() {
 
             // print to output the text after ECHO
         } else if (strncmp("ECHO", command, 4) == EQUAL) {
-            printf(" echo pid =  %d\n", getpid());
-
 
             char *echo;
             echo = (char *) malloc((line_size - 4) * (sizeof(char)));
@@ -113,7 +111,10 @@ int main() {
             }
             valid_cmd = 1;
 
+
             //changing  the position to command
+            // chdir() is a system call witch presents in unistd header file that provides access to the POSIX* OPERATING SYSTEM API .
+            //*portable = operating system interface
         } else if (strncmp("CD", command, 2) == EQUAL) {
             int chd;
             char *new_path;
@@ -141,6 +142,9 @@ int main() {
 
             //change output to server
         } else if (strcmp("TCP PORT", command) == EQUAL) {
+
+
+
             sok = open_socket();
             if (sok == -1) {
                 perror("connection failed  !");
@@ -155,6 +159,8 @@ int main() {
             dup2(desc, 1);
             close(sok);
             valid_cmd = 1;
+
+            // fopen/fread/fwrite is a Library Calls provided by our libc, (#include stdio header file)
         } else if (strncmp("COPY", command, 4) == EQUAL) {
             char *src;
             char *dest;
@@ -209,7 +215,7 @@ int main() {
                 exit(0);
             }
             char c;
-            // read from fhe src
+            // read from the src
             // char by char
             while (fread(&c, 1, 1, file_src) == 1) {
 
@@ -217,10 +223,8 @@ int main() {
                 fwrite(&c, 1, 1, file_dest);
             }
 
-
             fclose(file_src);
             fclose(file_dest);
-
 
             free(src);
             free(dest);
@@ -228,6 +232,7 @@ int main() {
         }
 
             //delete file from directory
+            //unlink is the mother of the system calls
         else if (strncmp("DELETE", command, 6) == EQUAL) {
             char *fileName;
             fileName = (char *) malloc((line_size - 6) * sizeof(char));
@@ -241,34 +246,39 @@ int main() {
 
             free(fileName);
             valid_cmd = 1;
-        }
+        } else {
 
 
-            //TODO
-        else {
+            //system handle all the other command
+            system(command);
+
 
             int pid = fork();
-            if (pid == -1) {
-                printf(" the child is not born\n");
+
+
+            if( pid == -1) {
+                perror("fork has failed\n");
                 exit(1);
-            } else if (pid == 0) {
-                char *binaryPath = "/bin/ls";
-                char *arg1 = "-lh";
-                char *arg2 = "/home";
-
-                execl(binaryPath, binaryPath, arg1,arg2, NULL);
-
-//
-//                if (execl(, "sh", "-c", command, (char *) NULL) == -1) {
-//                    printf(" ll hello from pid =  %d\n", getpid());
-//                    printf(" execl filed\n");
-//                    exit(1);
-            } else {
-                wait(NULL);
             }
+
+
+            if (pid == 0) {
+                printf("-----------handle command from new child-----------\n");
+
+                /* using manually the system library functions by executing the shell commands that specified in 'command' */
+                if (execl("/bin/sh", "sh", "-c", command, (char *) NULL) == -1) {
+                    printf("execl filed\n ");
+                    exit(1);
+
+                } else {
+
+                    //wait until child is dead
+                    wait(NULL);
+                }
+                valid_cmd = 1;
+            }
+
         }
-
-
         if (valid_cmd) {
             printf("\n~~Great choice master, anything else?\n");
         } else {
