@@ -3,4 +3,4 @@ project(Fork_SysCalls)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(Fork_SysCalls shell.c server.c)
+add_executable(Fork_SysCalls main.c server.c)

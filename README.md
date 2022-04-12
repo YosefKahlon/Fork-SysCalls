@@ -12,7 +12,7 @@ Here is the instruction of how to use:
 <div dir='ltr'>
 
     make all
-    ./shell
+    ./main
     ./server
 </div>
 

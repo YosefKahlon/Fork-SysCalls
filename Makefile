@@ -1,7 +1,7 @@
-all: shell server
+all: main server
 
-shell: shell.c
-	gcc shell.c -o shell
+shell: main.c
+	gcc main.c -o main
 
 server: server.c
 	gcc server.c -o server
@@ -9,4 +9,4 @@ server: server.c
 .PHONY :clean all
 
 clean:
-	rm -f *.o shell server
+	rm -f *.o main server
