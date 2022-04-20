@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Fork_SysCalls.dir/main.c.o"
   "CMakeFiles/Fork_SysCalls.dir/server.c.o"
-  "CMakeFiles/Fork_SysCalls.dir/shell.c.o"
   "Fork_SysCalls"
   "Fork_SysCalls.pdb"
 )

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/97252/Documents/GitHub/Fork-SysCalls
+CMAKE_SOURCE_DIR = /mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/97252/Documents/GitHub/Fork-SysCalls/cmake-build-debug
+CMAKE_BINARY_DIR = /mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/97252/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles /mnt/c/Users/97252/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles /mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/97252/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/barak/Documents/GitHub/Fork-SysCalls/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,6 +123,33 @@ Fork_SysCalls/fast:
 	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/build
 .PHONY : Fork_SysCalls/fast
 
+main.o: main.c.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.c.o:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/main.c.o
+.PHONY : main.c.o
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/main.c.s
+.PHONY : main.c.s
+
 server.o: server.c.o
 
 .PHONY : server.o
@@ -150,33 +177,6 @@ server.c.s:
 	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/server.c.s
 .PHONY : server.c.s
 
-shell.o: shell.c.o
-
-.PHONY : shell.o
-
-# target to build an object file
-shell.c.o:
-	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/shell.c.o
-.PHONY : shell.c.o
-
-shell.i: shell.c.i
-
-.PHONY : shell.i
-
-# target to preprocess a source file
-shell.c.i:
-	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/shell.c.i
-.PHONY : shell.c.i
-
-shell.s: shell.c.s
-
-.PHONY : shell.s
-
-# target to generate assembly for a file
-shell.c.s:
-	$(MAKE) -f CMakeFiles/Fork_SysCalls.dir/build.make CMakeFiles/Fork_SysCalls.dir/shell.c.s
-.PHONY : shell.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +186,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Fork_SysCalls"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"
-	@echo "... shell.o"
-	@echo "... shell.i"
-	@echo "... shell.s"
 .PHONY : help
 
 
